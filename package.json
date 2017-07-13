@@ -11,8 +11,10 @@
   "dependencies": {
     "common-errors": "^1.0.2",
     "common-tags": "^1.4.0",
+    "erlpack": "^0.1.2",
     "express": "^4.15.3",
     "lodash": "^4.17.4",
-    "winston": "^2.3.1"
+    "winston": "^2.3.1",
+    "ws": "^3.0.0"
   }
 }
