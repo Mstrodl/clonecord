@@ -56,3 +56,8 @@ typings/
 
 # dotenv environment variables file
 .env
+
+# Configuration
+config/config.json
+config/config.*.json
+!config/config.default.json
