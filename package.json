@@ -1,0 +1,11 @@
+{
+  "name": "clonecord",
+  "version": "0.1.0",
+  "description": "WIP Clonecord",
+  "main": "index.js",
+  "scripts": {
+    "start": "node ."
+  },
+  "author": "",
+  "license": "ISC"
+}
