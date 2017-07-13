@@ -1,7 +1,8 @@
 const express = require('express'),
       config = require('../config/')
 
-const app = require('express')
+const app = express()
+
 
 
 app.use((err, req, res, next) => {

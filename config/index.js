@@ -8,11 +8,9 @@ if(env && env.endsWith(' '))
   env = env.substr(0, env.length - 1) // Removes blank space at the end of an environment string
 
 if(env && fs.existsSync(path.join(__dirname, `config.${env.toString()}.json`))) {
-  console.log('passed 11')
   config = require(`./config.${env.toString()}.json`)
 } else {
   if(env == 'prod' || env == 'production' || !env) {
-    console.log('14', path.join(__dirname, 'config.json'))
     if(fs.existsSync(path.join(__dirname, 'config.json'))) {
       config = require('./config.json')
     }  
