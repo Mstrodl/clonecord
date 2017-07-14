@@ -4,8 +4,11 @@ const express = require('express'),
       sr = require('common-tags').stripIndents
 const app = express()
 
-app.use(express.static(path.join(__dirname, 'public')))
 
+const api = require('./routes/api')
+app.use(express.static(path.join(__dirname, 'public')))
+app.use('/api', api)
+app.use('/api/v6', api)
 app.use((err, req, res, next) => {
   console.error(err)
   res.send('Oops error')
