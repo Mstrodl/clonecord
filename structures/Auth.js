@@ -1,5 +1,7 @@
 class AuthManager {
-  
+  constructor() {
+    
+  }
 }
 
 module.exports = {
