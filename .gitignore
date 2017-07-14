@@ -61,3 +61,6 @@ typings/
 config/config.json
 config/config.*.json
 !config/config.default.json
+
+# Key
+key.json

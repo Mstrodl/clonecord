@@ -14,6 +14,7 @@
     "common-tags": "^1.4.0",
     "erlpack": "^0.1.2",
     "express": "^4.15.3",
+    "jsonwebtoken": "^7.4.1",
     "lodash": "^4.17.4",
     "mongoose": "^4.11.2",
     "randomstring": "^1.1.5",
