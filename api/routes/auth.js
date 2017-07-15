@@ -24,9 +24,11 @@ router.route('/login')
     let usersalt = user.password.salt
     let match = await bcrypt.compare(password, userhash)
     if(match) {
-      res.send('wew it matches')
+      res.status(200).json({
+        token: auth.genToken(user.id)
+      })
     } else {
-      res.send('ur bad')
+      throw new FieldError('password', 'does not match')
     }
   }))
 
