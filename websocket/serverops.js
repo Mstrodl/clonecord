@@ -35,18 +35,17 @@ function createPayload(op, data, ws) {
     d: data,
     s: ws.sequence || null
   })
-  if(ws.authed) ++ws.sequence
   log.debug('Created payload', d)
   return JSON.stringify(d)
 }
 function createEvent(event, data, ws) {
+  if(ws.authed) ws.sequence = ws.sequence + 1 | 1
   let pack = {
     op: 0,
     t: event.toUpperCase(),
     d: data,
     s: ws.sequence || null
   }
-  if(ws.authed) ++ws.sequence
   let d = merge(defaults, pack)
   log.debug('Created event', d)
   return JSON.stringify(d)
@@ -58,10 +57,11 @@ module.exports.hello = function(ws) { // OP 10 hello
     _trace: ws.trace
   }, ws))
 }
-let defaultUserSettings = 
 module.exports.ready = function(ws, user) {
   ws.trace.push(generateGateway('sessions'))
   ws.authed = true
+  ws.user = user
+  ws.userid = user.id
   let readyPacket = {
     v: 6,
     user: JSON.parse(JSON.stringify(user)),
