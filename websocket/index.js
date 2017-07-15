@@ -44,6 +44,7 @@ wss.on('connection', (ws) => {
         case 2: // OP 2 Identify
           if(!d.token) return ws.close(4004, 'Authentication failed')
           if(!d.properties) return ws.close(4002, 'Decode error')
+          if(ws.authed) return ws.close(4005, 'Already authenticated')
           let token = d.token
           if(auth.tokenLegit(token)) {
             let uid = auth.getTokenUserID(token)
