@@ -1,4 +1,4 @@
-const {Errors, ClonecordError, FieldRequiredError} = require('../errors')
+const {Errors, ClonecordError, FieldRequiredError} = require('./errors')
 module.exports.postReq = (fields, callback) => {
   return (req, res) => {
     if(!req.body) throw new FieldRequiredError(fields)

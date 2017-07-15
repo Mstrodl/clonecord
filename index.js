@@ -36,7 +36,7 @@ async function initialize() {
       require('./websocket/index')
     }
   } catch (err) {
-    main.error('Failed to initialize', err)
+    log.error('Failed to initialize', err)
   }
 }
 initialize()
