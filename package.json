@@ -25,6 +25,7 @@
     "moment": "^2.18.1",
     "mongoose": "4.10.8",
     "ms": "github:zeit/ms",
+    "node-cleanup": "^2.1.2",
     "randomstring": "^1.1.5",
     "seedrandom": "^2.4.3",
     "winston": "^2.3.1",

@@ -15,9 +15,7 @@ function onmessage(event) {
   console.groupEnd()
 }
 let lastSeq = null
-let dtoken = 'MzM1MjA3OTM5MTM0NTg2ODgw.DEmaOg.9Qq7Hg9HE20b9AxX4WuS4PIsHVU'
-let ctoken = 'A_wild_token_appeared_clonecord_test'
-let token = ctoken
+let token = ''
 function heartbeat(ws) {
   ws.send(JSON.stringify({
     op: 1,
@@ -42,19 +40,16 @@ function identify(ws) {
       version: 6
     }
   }
-  console.log(packet)
   ws.send(JSON.stringify(packet))
 }
 
 function onmessagediscord(event) {
-  console.log(event.data)
   let data = JSON.parse(event.data)
   let op = opcode = data.op
   let ws = event.currentTarget
   if(data.d && data.d.s) lastSeq = data.d.s
   switch(op) {
     case 10: { // OP 10 Hello
-      console.log('send XD')
       setTimeout(heartbeat, data.d.heartbeat_interval, ws) // OP 1 response
       identify(ws) // OP 1
       break
@@ -69,12 +64,12 @@ function send(data) {
   wss.send(data)
 }
 
-function createWS(url, discord = false) {
+function createWS(url, _token) {
   let wss = new WebSocket(url)
   wss.onopen = onopen
   wss.onclose = onclose
   wss.onerror = onerror
   wss.onmessage = onmessagediscord
-  token = discord ? dtoken : ctoken
+  token = _token
   return wss
 }

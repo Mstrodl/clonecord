@@ -48,6 +48,51 @@ let userSchema = new mongoose.Schema({
     required: false,
     default: false
   },
+  mfa_enabled: {
+    type: Boolean,
+    default: false
+  },
+  private_channels: {
+    type: Array,
+    default: []
+  },
+  notes: {
+    type: Array,
+    default: []
+  },
+  relationships: {
+    type: Array,
+    default: []
+  },
+  settings: {
+    type: Object,
+    default: {
+      locale: 'en_US',
+      status: 1,
+      showCurrentGame: true,
+      sync: true,
+      inlineAttachmentMedia: true,
+      inlineEmbedMedia: true,
+      renderEmbeds: true,
+      renderReations: true,
+      theme: 0,
+      enableTTSCommand: true,
+      messageDisaplyCompact: false,
+      convertEmoticons: true,
+      restrictedGuilds: [],
+      defaultGuildsRestricted: false,
+      explicitContentFilter: 0,
+      friendSourceFlags: {all: true},
+      developerMode: false,
+      guildPositions: [],
+      detectPlatformAccounts: false,
+      afkTimeout: 600
+    }
+  },
+  guild_settings: {
+    type: Array,
+    default: []
+  },
   verified: Boolean
 })
 
@@ -55,6 +100,15 @@ userSchema.set('toJSON', {
   transform: (doc, ret) => {
     delete ret._id
     delete ret.__v
+    delete ret.admin
+    delete ret.password
+    delete ret.guilds
+    delete ret.flags
+    delete ret.premium
+    delete ret.private_channels
+    delete ret.notes
+    delete ret.relationships
+    delete ret.settings
   }
 })
 

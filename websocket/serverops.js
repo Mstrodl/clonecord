@@ -58,61 +58,34 @@ module.exports.hello = function(ws) { // OP 10 hello
     _trace: ws.trace
   }, ws))
 }
-let defaultUserSettings = {
-  locale: 'en_US',
-  status: 1,
-  showCurrentGame: true,
-  sync: true,
-  inlineAttachmentMedia: true,
-  inlineEmbedMedia: true,
-  renderEmbeds: true,
-  renderReations: true,
-  theme: 0,
-  enableTTSCommand: true,
-  messageDisaplyCompact: false,
-  convertEmoticons: true,
-  restrictedGuilds: [],
-  defaultGuildsRestricted: false,
-  explicitContentFilter: 0,
-  friendSourceFlags: {all: true},
-  developerMode: false,
-  guildPositions: [],
-  detectPlatformAccounts: false,
-  afkTimeout: 600
-}
-module.exports.ready = function(ws) {
+let defaultUserSettings = 
+module.exports.ready = function(ws, user) {
   ws.trace.push(generateGateway('sessions'))
   ws.authed = true
-  ws.send(createEvent('READY', {
+  let readyPacket = {
     v: 6,
-    user: {
-      avatar: null,
-      bot: false,
-      discriminator: '80085',
-      email: 'cancer@google.com',
-      id: '335207939134586880',
-      mfa_enabled: false,
-      username: 'boobs',
-      verified: true
-    },
-    private_channels: [],
-    guilds: [],
-    relationships: [],
-    user_settings: defaultUserSettings,
-    user_guild_settings: [],
+    user: JSON.parse(JSON.stringify(user)),
+    private_channels: user.private_channels,
+    guilds: user.guilds,
 
-    connected_accounts: [],
-    notes: [],
+    relationships: user.relationships,
+
+    user_settings: user.settings,
+    user_guild_settings: user.guild_settings,
+    connected_accounts: user.connected_accounts,
+    notes: user.notes,
+
     friend_suggestion_count: 0,
     presences: [],
     read_state: [],
-    analytics_token: `${generateSession('analytics-test')}`,
+    analytics_token: `${generateGateway('analytics-test')}`,
     experiments: [],
     guild_experiments: [],
     required_action: 3,
     session_id: generateSession(),
     _trace: ws.trace
-  }, ws))
+  }
+  ws.send(createEvent('READY', readyPacket, ws))
 }
 
 module.exports.heartbeatack = function(ws) {

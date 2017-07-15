@@ -24,9 +24,24 @@ class AuthManager {
     })
     return token
   }
+  tokenLegit(token) {
+    let userid = this.getTokenUserID(token)
+    let valid = this.tokenValid(token, userid)
+    return valid
+  }
+  getTokenUserID(token) {
+    try {
+      let decoded = jwt.verify(token, key)
+      return decoded.id
+    } catch (err) {
+      return false
+    }
+  }
   tokenValid(token, id) {
     try {
       let decoded = jwt.verify(token, key)
+      let r1 = decoded.r1
+      let r2 = decoded.r2
       let seed = seedrandom(`${id}.${config.env.startsWith('prod') ? 'prd' : 'dev'}.${r1}`, {global: false})
       if((r2 == Math.floor(seed() * 100) + 1) && id == decoded.id) {
         return true
@@ -34,7 +49,6 @@ class AuthManager {
         return false
       }
     } catch(err) {
-      console.error(err)
       return false
     }
   }
