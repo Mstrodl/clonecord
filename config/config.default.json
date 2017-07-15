@@ -2,10 +2,9 @@
   "database": {
     "username": "admin",
     "password": "admin password",
-    "auth": true,
     "database": "clonecord",
     "host": "127.0.0.1",
-    "port": 27015
+    "port": 27017
   },
   "services": {
     "websocket": {

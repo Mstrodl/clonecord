@@ -9,6 +9,8 @@
   "author": "Relative & heatingdevice",
   "license": "ISC",
   "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "bluebird": "^3.5.0",
     "body-parser": "^1.17.2",
     "common-errors": "^1.0.2",
     "common-tags": "^1.4.0",
@@ -16,7 +18,7 @@
     "express": "^4.15.3",
     "jsonwebtoken": "^7.4.1",
     "lodash": "^4.17.4",
-    "mongoose": "^4.11.2",
+    "mongoose": "^4.10.8",
     "randomstring": "^1.1.5",
     "winston": "^2.3.1",
     "ws": "^3.0.0"

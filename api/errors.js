@@ -1,3 +1,4 @@
+// https://discordapp.com/developers/docs/topics/response-codes
 let errors = {
   unknownAccount: {
     code: 10001,
@@ -191,7 +192,20 @@ class ClonecordError extends Error {
   }
 }
 
+class FieldRequiredError extends Error {
+  constructor(fields) {
+    super('Field required error')
+    let err = {}
+    for(let key in fields) {
+      if(!fields.hasOwnProperty(key)) continue
+      let f = fields[key]
+      err[f] = ['This field is required']
+    }
+    this.realError = err
+  }
+}
 module.exports = {
   Errors: errors,
-  ClonecordError: ClonecordError
+  ClonecordError: ClonecordError,
+  FieldRequiredError: FieldRequiredError
 }
