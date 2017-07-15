@@ -35,13 +35,18 @@ let userSchema = new mongoose.Schema({
     default: false
   },
   password: { // pls hash this kthx
-    type: String,
+    type: Object,
     required: true
   },
   email: {
     type: String,
     required: true,
     unique: true
+  },
+  admin: {
+    type: Boolean,
+    required: false,
+    default: false
   },
   verified: Boolean
 })

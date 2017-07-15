@@ -1,3 +1,6 @@
+const FlakeIdGen = require('flake-idgen')
+const intformat = require('biguint-format')
+const generator = new FlakeIdGen()
 /**
  * Simple object check.
  * @param item
@@ -28,5 +31,17 @@ module.exports.mergeDeep = function(target, ...sources) {
   }
 
   return module.exports.mergeDeep(target, ...sources);
+}
+module.exports.randomInt = function(min, max) {
+  return Math.floor(Math.random() * (max - min + 1) + min)
+}
+module.exports.pad = function(str, pad) {
+  pad = pad  || '0';
+  while(str.length < 4) str = pad + str;
+  return str;
+}
+module.exports.genSnowflake = function() {
+  let id = generator.next()
+  return intformat(id, 'dec')
 }
 module.exports._ = require('lodash')

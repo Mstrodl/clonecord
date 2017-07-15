@@ -10,6 +10,7 @@
   "license": "ISC",
   "dependencies": {
     "bcryptjs": "^2.4.3",
+    "biguint-format": "^1.0.0",
     "bluebird": "^3.5.0",
     "body-parser": "^1.17.2",
     "colors": "^1.1.2",
@@ -18,11 +19,14 @@
     "cycle": "^1.0.3",
     "erlpack": "^0.1.2",
     "express": "^4.15.3",
+    "flake-idgen": "^1.1.0",
     "jsonwebtoken": "^7.4.1",
     "lodash": "^4.17.4",
     "moment": "^2.18.1",
     "mongoose": "4.10.8",
+    "ms": "github:zeit/ms",
     "randomstring": "^1.1.5",
+    "seedrandom": "^2.4.3",
     "winston": "^2.3.1",
     "ws": "^3.0.0"
   }

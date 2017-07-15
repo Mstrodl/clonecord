@@ -219,9 +219,28 @@ class DoesntExistError extends Error {
     Error.captureStackTrace(this, DoesntExistError)
   }
 }
+class FieldError extends Error {
+  constructor(fields, x) {
+    super('Field error')
+    let err = {}
+    if(typeof fields == 'object' && Array.isArray(fields)) {
+      for(let key in fields) {
+        if(!fields.hasOwnProperty(key)) continue
+        let field = fields[key]
+        err[field] = [`${field} ${x}.`]
+      }
+    } else {
+      err[fields] = [`${fields} ${x}.`]
+    }
+    this.realError = err
+    Error.captureStackTrace(this, FieldError)
+  }
+}
+
 module.exports = {
   Errors: errors,
   ClonecordError: ClonecordError,
   FieldRequiredError: FieldRequiredError,
-  DoesntExistError: DoesntExistError
+  DoesntExistError: DoesntExistError,
+  FieldError: FieldError
 }
