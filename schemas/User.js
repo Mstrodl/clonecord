@@ -18,7 +18,15 @@ let userSchema = new mongoose.Schema({
     type: String,
     default: ""
   },
+  bot: {
+    type: Boolean,
+    default: false
+  },
   guilds: {
+    type: Array,
+    default: []
+  },
+  flags: { // Flags of the user. like if they are staff or not or hypesquad
     type: Array,
     default: []
   },
@@ -34,9 +42,13 @@ let userSchema = new mongoose.Schema({
     type: String,
     required: true
   },
-  bot: {
-    type: Boolean,
-    default: false
+  verified: Boolean
+})
+
+userSchema.set('toJSON', {
+  transform: (doc, ret) => {
+    delete ret._id
+    delete ret.__v
   }
 })
 

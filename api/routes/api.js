@@ -4,6 +4,10 @@ const config = require('../../config/')
 const wscfg = config.services.websocket
 const bodyparser = require('body-parser')
 
+/* routers */
+const rtauth = require('./auth')
+router.use('/auth', rtauth)
+
 router.use(bodyparser.json())
 router.route('/gateway')
   .get((req, res) => {
