@@ -202,10 +202,26 @@ class FieldRequiredError extends Error {
       err[f] = ['This field is required']
     }
     this.realError = err
+    Error.captureStackTrace(this, FieldRequiredError)
+  }
+}
+
+class DoesntExistError extends Error {
+  constructor(fields) {
+    super('Doesnt exist error')
+    let err = {}
+    for(let key in fields) {
+      if(!fields.hasOwnProperty(key)) continue
+      let field = fields[key]
+      err[field] = [`${field} does not exist.`]
+    }
+    this.realError = err
+    Error.captureStackTrace(this, DoesntExistError)
   }
 }
 module.exports = {
   Errors: errors,
   ClonecordError: ClonecordError,
-  FieldRequiredError: FieldRequiredError
+  FieldRequiredError: FieldRequiredError,
+  DoesntExistError: DoesntExistError
 }

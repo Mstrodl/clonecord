@@ -1,6 +1,6 @@
 const {Errors, ClonecordError, FieldRequiredError} = require('./errors')
 module.exports.postReq = (fields, callback) => {
-  return (req, res) => {
+  return (req, res, next) => {
     if(!req.body) throw new FieldRequiredError(fields)
     let body = req.body
     let f = []
@@ -10,6 +10,8 @@ module.exports.postReq = (fields, callback) => {
       if(!body[field]) f.push(field)
     }
     if(f.length > 0) throw new FieldRequiredError(f)
-    callback(req, res)
+    Promise.resolve(callback(req, res)).catch((err) => {
+      return next(err)
+    })
   }
 }

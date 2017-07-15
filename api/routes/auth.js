@@ -10,18 +10,17 @@ const log         = winston.loggers.get('rest')
 // Schemas
 const {Channel, Guild, Message, User} = require('../../schemas/')
 
+const {DoesntExistError} = require('../errors')
 
 router.use(bodyparser.json())
 router.route('/login')
-  .post(postReq(['email', 'password'], (req, res) => {
-    let body = req.body
-    let chan = new Channel({
-    oof: true,
-    benis: "69696",
-    id: blah
-})
-chan.save()
-    res.json(body)
+  .post(postReq(['email', 'password'], async (req, res) => {
+    let email = req.body.email
+    let password = req.body.password
+
+    let user = await User.findOne({ email })
+    if(!user) throw new DoesntExistError(['email'])
+    res.json(email)
   }))
 
 module.exports = router

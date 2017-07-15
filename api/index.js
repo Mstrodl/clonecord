@@ -24,15 +24,26 @@ app.use((req, res, next) => {
 
 /* Error Handler */
 app.use((err, req, res, next) => {
-  if(err.realError) {
-    return res.status(500).json(err.realError)
+  try {
+    if(err.realError) {
+      return res.status(500).json(err.realError)
+    }
+    log.error('Uncaught error', err)
+    return res.status(500).json({
+      code: 0,
+      message: `The server had an error processing your request`,
+      errorMessage: err.message || 'None'
+    })
+  } catch(err) {
+    console.error(err)
+    log.error('Error in the error handler', err) // this shouldn't happen...
+    return res.status(500).json({
+      code: 0,
+      message: `The server had an error processing your request`,
+      errorMessage: err.message || 'None'
+    })
   }
-  log.error('Uncaught error', err)
-  return res.status(500).json({
-    code: 0,
-    message: `The server had an error processing your request`,
-    errorMessage: err.message || 'None'
-  })
+  
 })
 
 app.disable('x-powered-by') // Harder to detect what the webserver is running under
