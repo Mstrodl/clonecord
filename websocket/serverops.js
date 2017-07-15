@@ -1,13 +1,18 @@
+
+const config        = require('../config/')
+const merge         = require('../utilities').mergeDeep
+const randomstring  = require('randomstring')
+// Log
+const winston       = require('winston')
+const log           = winston.loggers.get('websocket')
+
+let gateways = {}
 const defaults = {
   op: 0,
   d: {},
   s: null,
   t: null
 }
-const config = require('../config/')
-const merge = require('../utilities').mergeDeep
-const randomstring = require('randomstring')
-let gateways = {}
 function randomNumber(min, max) {
   return Math.floor(Math.random() * (max - min + 1)+min)
 }
@@ -31,7 +36,7 @@ function createPayload(op, data, ws) {
     s: ws.sequence || null
   })
   if(ws.authed) ++ws.sequence
-  console.log(d)
+  log.debug('Created payload', d)
   return JSON.stringify(d)
 }
 function createEvent(event, data, ws) {
@@ -43,7 +48,7 @@ function createEvent(event, data, ws) {
   }
   if(ws.authed) ++ws.sequence
   let d = merge(defaults, pack)
-  console.log(d)
+  log.debug('Created event', d)
   return JSON.stringify(d)
 }
 module.exports.hello = function(ws) { // OP 10 hello

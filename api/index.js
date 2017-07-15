@@ -1,13 +1,28 @@
-const express = require('express'),
-      config = require('../config/'),
-      path = require('path'),
-      sr = require('common-tags').stripIndents
-const app = express()
+const express   = require('express')
+const config    = require('../config/')
+const path      = require('path')
+const sr        = require('common-tags').stripIndents
+const errors    = require('./errors')
+const app       = express()
 
-const api = require('./routes/api')
+// Log
+const winston   = require('winston')
+const log       = winston.loggers.get('rest')
+
+// Routers
+const api       = require('./routes/api')
 app.use(express.static(path.join(__dirname, 'public')))
 app.use('/api', api)
 app.use('/api/v6', api)
+
+app.use((req, res, next) => {
+  return res.status(404).json({
+    code: 0,
+    message: '404: Not Found'
+  })
+})
+
+/* Error Handler */
 app.use((err, req, res, next) => {
   if(err.realError) {
     return res.status(500).json(err.realError)
@@ -19,5 +34,6 @@ app.use((err, req, res, next) => {
     errorMessage: err.message || 'None'
   })
 })
-app.disable('x-powered-by')
-app.listen(config.services.api.port, console.log(`[rest] Listening on ${config.services.api.host || config.services.api.route}:${config.services.api.port}`))
+
+app.disable('x-powered-by') // Harder to detect what the webserver is running under
+app.listen(config.services.api.port, log.info(`Listening on ${config.services.api.host || config.services.api.route}:${config.services.api.port}`))
