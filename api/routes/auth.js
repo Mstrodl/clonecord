@@ -1,24 +1,15 @@
-const express = require('express')
-const router = express.Router()
-const config = require('../../config/')
-const bodyparser = require('body-parser')
-const {Channel, Guild, Message, User} = require('../../schemas/')
-const {Errors, ClonecordError, FieldRequiredError} = require('../errors')
+const express     = require('express')
+const router      = express.Router()
+const config      = require('../../config/')
+const bodyparser  = require('body-parser')
+const {postReq}   = require('../reqs')
 
-function postReq(fields, callback) {
-  return (req, res) => {
-    if(!req.body) throw new FieldRequiredError(fields)
-    let body = req.body
-    let f = []
-    for(let key in fields) {
-      if(!fields.hasOwnProperty(key)) continue
-      let field = fields[key]
-      if(!body[field]) f.push(field)
-    }
-    if(f.length > 0) throw new FieldRequiredError(f)
-    callback(req, res)
-  }
-}
+// Log
+const winston     = require('winston')
+const log         = winston.loggers.get('rest')
+// Schemas
+const {Channel, Guild, Message, User} = require('../../schemas/')
+
 
 router.use(bodyparser.json())
 router.route('/login')

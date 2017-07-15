@@ -15,11 +15,23 @@ wss.on('connection', (ws) => {
   try {
     server.hello(ws)
     ws.on('message', (data) => {
-      if (!data) return ws.close(4000)
+      if (!data) {
+        log.debug('No data received from client')
+        return ws.close(4000)
+      }
       data = JSON.parse(data)
-      if(!data) return ws.close(4002)
-      if (!data.op) return ws.close(4001)
-      if (data.op != 1 && !data.d) return ws.close(4002)
+      if(!data) {
+        log.debug(`Couldn't parse data from client`)
+        return ws.close(4002)
+      }
+      if (!data.op) {
+        log.debug('No op code received from client')
+        return ws.close(4001)
+      }
+      if (data.op != 1 && !data.d) {
+        log.debug('No d object received from client')
+        return ws.close(4002)
+      }
       let d = data.d
       let op = data.op
       switch (op) {
@@ -36,16 +48,15 @@ wss.on('connection', (ws) => {
           }
           break
         default:
-          console.dir(data)
+          log.warn('Unknown OP code received', data)
           //return ws.close(4001)
           break
       }
     })
   } catch (err) {
-    console.error(err)
+    log.error('Failure in websocket logic', err)
     return ws.close(4000)
   }
-
 })
 
 log.info(`Listening on ${config.services.websocket.host || config.services.websocket.route}:${config.services.websocket.port}`)

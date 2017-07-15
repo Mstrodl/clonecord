@@ -27,7 +27,7 @@ app.use((err, req, res, next) => {
   if(err.realError) {
     return res.status(500).json(err.realError)
   }
-  console.error(err)
+  log.error('Uncaught error', err)
   return res.status(500).json({
     code: 0,
     message: `The server had an error processing your request`,

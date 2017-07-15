@@ -1,8 +1,11 @@
-const express = require('express')
-const router = express.Router()
-const config = require('../../config/')
-const wscfg = config.services.websocket
-const bodyparser = require('body-parser')
+const express       = require('express')
+const router        = express.Router()
+const config        = require('../../config/')
+const wscfg         = config.services.websocket
+const bodyparser    = require('body-parser')
+// Log
+const winston       = require('winston')
+const log           = winston.loggers.get('rest')
 
 /* routers */
 const rtauth = require('./auth')
