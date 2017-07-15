@@ -172,3 +172,26 @@ let errors = {
     message: 'Reaction Blocked'
   }
 }
+
+class ClonecordError extends Error {
+  constructor(code) {
+    let err
+    for(let _e in errors) {
+      if(!errors.hasOwnProperty(_e)) continue
+      let er = errors[_e]
+      if(er.code == code) {
+        err = er
+        break
+      }
+    }
+    if(!err) throw new Error('Error not found')
+    super(err.message)
+    this.realError = err
+    Error.captureStackTrace(this, ClonecordError)
+  }
+}
+
+module.exports = {
+  Errors: errors,
+  ClonecordError: ClonecordError
+}
