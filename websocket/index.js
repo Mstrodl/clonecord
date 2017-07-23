@@ -2,11 +2,11 @@ const config        = require('../config/')
 const WebSocket     = require('ws')
 const server        = require('./serverops')
 const nodeCleanup   = require('node-cleanup')
-
+const querystring   = require('querystring')
 // Log
 const winston       = require('winston')
 const log           = winston.loggers.get('websocket')
-
+// const wss = createWS('ws://127.0.0.1:6900/?encoding=json&v=6', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyOTIxMDM2MzM1NzYxMzI2MDgiLCJyMSI6ImQzYjU0OTA0ZWMzOCIsInIyIjo3MiwiaWF0IjoxNTAwMjQzNzk5LCJleHAiOjE1MDAzMzAxOTl9.rsHM6BaS1i32B_UTwuyeBDB9XvqPY5ii-cMLsITQFXw')
 const wss = new WebSocket.Server({
   port: config.services.websocket.port
 })
@@ -14,8 +14,31 @@ const wss = new WebSocket.Server({
 const {Channel, Guild, Message, User} = require('../schemas/')
 
 
-wss.on('connection', (ws) => {
+function getParams(req) {
+  let str = req.url
+  if(!str) return {
+    encoding: 'json',
+    v: '6'
+  }
+  if(str.startsWith('/')) {
+    str = str.substr(1)
+  }
+  if(str.startsWith('?')) {
+    str = str.substr(1)
+  }
+  let unpacked = querystring.parse(str)
+  console.log(unpacked)
+  return unpacked ? unpacked : {
+    encoding: 'json',
+    v: '6'
+  }
+}
+wss.on('connection', (ws, req) => {
   try {
+    // get encoding and define
+    let params = getParams(req)
+    ws.encoding = params.encoding || 'json'
+    ws.gwv = params.v || '6'
     server.hello(ws)
     ws.on('message', async (data) => {
       if (!data) {
@@ -37,9 +60,10 @@ wss.on('connection', (ws) => {
       }
       let d = data.d
       let op = data.op
+      //console.log(d)
       switch (op) {
         case 1: // OP 1 Heartbeat
-          server.heartbeatack(ws)
+          server.heartbeatack(ws, data)
           break
         case 2: // OP 2 Identify
           if(!d.token) return ws.close(4004, 'Authentication failed')
@@ -54,7 +78,7 @@ wss.on('connection', (ws) => {
               ws.close(4004, 'Authentication failed')
               return process.exit(1)
             }
-            server.ready(ws, user)
+            server.ready(ws, user, data)
           } else {
             return ws.close(4004, 'Authentication failed')
           }
@@ -67,7 +91,7 @@ wss.on('connection', (ws) => {
     })
   } catch (err) {
     log.error('Failure in websocket logic', err)
-    return ws.close(4000)
+    return ws.close(4000, err.message)
   }
 })
 

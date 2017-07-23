@@ -10,13 +10,13 @@
     "websocket": {
       "host": "0.0.0.0",
       "port": 6900,
-      "route": "69.41.61.289",
+      "route": "127.0.0.1",
       "enabled": true
     },
     "api": {
       "host": "0.0.0.0",
       "port": 6901,
-      "route": "69.41.61.289",
+      "route": "127.0.0.1",
       "enabled": true
     }
   }

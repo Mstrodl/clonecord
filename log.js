@@ -193,7 +193,7 @@ winston.loggers.add('rest', {
 })
 winston.loggers.add('websocket', {
   console: {
-    level: config.env.startsWith('dev') ? 'debug' : 'info',
+    level: config.env.startsWith('dev') ? 'debug' : 'debug',
     colorize: true,
     label: colors['green']('ws'),
     formatter: formatter,

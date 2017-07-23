@@ -42,9 +42,35 @@ function identify(ws) {
   }
   ws.send(JSON.stringify(packet))
 }
+function toArrayBuffer(blob, callback) {
+  var fileReader = new FileReader()
+  var arrayBuffer
 
+  fileReader.onload = () => {
+    console.log('fuck')
+    arrayBuffer = fileReader.result
+    return callback(arrayBuffer)
+  }
+  fileReader.readAsArrayBuffer(blob)
+}
+function unpack(charData) {
+  var binData = new Uint8Array(charData)
+  return pako.inflate(binData, {to: 'string'})
+}
 function onmessagediscord(event) {
-  let data = JSON.parse(event.data)
+  let data
+  try {
+    data = JSON.parse(event.data)
+  } catch (err) {
+    console.log('wat')
+    console.log(event)
+    window.eb = event.data
+    toArrayBuffer(eb, (arbu) => {
+      console.log('lul')
+      window.ab = arbu
+    })
+    return
+  }
   let op = opcode = data.op
   let ws = event.currentTarget
   if(data.d && data.d.s) lastSeq = data.d.s
@@ -55,6 +81,7 @@ function onmessagediscord(event) {
       break
     }
   }
+  //if(op === 0) return
   console.group(`[wss] OP ${op}`)
   console.dir(event)
   console.log(data)
