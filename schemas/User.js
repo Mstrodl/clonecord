@@ -67,15 +67,15 @@ let userSchema = new mongoose.Schema({
   settings: {
     type: Object,
     default: {
-      locale: 'en_US',
-      status: 1,
+      locale: 'en-US',
+      status: 'online',
       showCurrentGame: true,
       sync: true,
       inlineAttachmentMedia: true,
       inlineEmbedMedia: true,
       renderEmbeds: true,
       renderReations: true,
-      theme: 0,
+      theme: 'dark',
       enableTTSCommand: true,
       messageDisaplyCompact: false,
       convertEmoticons: true,
@@ -83,7 +83,7 @@ let userSchema = new mongoose.Schema({
       defaultGuildsRestricted: false,
       explicitContentFilter: 0,
       friendSourceFlags: {all: true},
-      developerMode: false,
+      developerMode: true,
       guildPositions: [],
       detectPlatformAccounts: false,
       afkTimeout: 600

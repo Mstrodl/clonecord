@@ -60,6 +60,7 @@ wss.on('connection', (ws, req) => {
       }
       let d = data.d
       let op = data.op
+      
       //console.log(d)
       switch (op) {
         case 1: // OP 1 Heartbeat
@@ -82,6 +83,11 @@ wss.on('connection', (ws, req) => {
           } else {
             return ws.close(4004, 'Authentication failed')
           }
+          break
+        case 3: // OP 3 Status Change
+          if(!d.status) return
+          ws.user.settings.status = d.status
+          ws.user.save()
           break
         default:
           log.warn('Unknown OP code received', data)
