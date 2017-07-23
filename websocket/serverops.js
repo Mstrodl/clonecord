@@ -79,15 +79,15 @@ module.exports.hello = function(ws, data) { // OP 10 hello
   }, ws))
 }
 let fuck = {
-      locale: 'en_US',
-      status: 1,
+      locale: 'en-US',
+      status: 'online',
       showCurrentGame: true,
       sync: true,
       inlineAttachmentMedia: true,
       inlineEmbedMedia: true,
       renderEmbeds: true,
       renderReations: true,
-      theme: 1,
+      theme: 'dark',
       enableTTSCommand: true,
       messageDisaplyCompact: false,
       convertEmoticons: true,
