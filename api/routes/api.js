@@ -17,7 +17,7 @@ router.use(bodyparser.json())
 router.route('/gateway')
   .get((req, res) => {
     return res.status(200).json({
-      url: `ws://${wscfg.route || wscfg.host}:${wscfg.port}`
+      url: `wss://${wscfg.route || wscfg.host}${!wscfg.route ? ':' + wscfg.port : ''}`
     })
   })
 
