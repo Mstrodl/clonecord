@@ -52,19 +52,6 @@ class AuthManager {
       return false
     }
   }
-  async getDiscrim(username) {
-    let rdm = randomInt(1, 9999)
-    let discrim = pad(rdm)
-    let users = await User.find({discrim: discrim})
-    for(let key in users) {
-      if(!users.hasOwnProperty(key)) continue
-      let user = users[key]
-      if(user.username = username) {
-        return await getDiscrim(username)
-      }
-    }
-    return discrim
-  }
   newSnowflake() {
     return genSnowflake()
   }
